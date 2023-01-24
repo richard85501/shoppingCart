@@ -1,8 +1,10 @@
 import { Navbar as NavbarBs, Container, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { MdShoppingCart } from "react-icons/md";
+import { useShoppingCart } from "../context/ShoppingCartContext";
 
 export function Navbar() {
+  const { openCart, cartQuantity } = useShoppingCart();
   return (
     <NavbarBs sticky="top" className="bg-white shadow-sm mb-3">
       <Container>
@@ -17,27 +19,30 @@ export function Navbar() {
             About
           </Nav.Link>
         </Nav>
-        <Button
-          variant="outline-primary"
-          className="rounded-circle"
-          style={{ position: "relative", width: "3rem", height: "3rem" }}
-        >
-          <MdShoppingCart style={{ fontSize: "25px" }} />
-          <div
-            className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
-            style={{
-              color: "white",
-              width: "1.5rem",
-              height: "1.5rem",
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-              transform: "translate(25%,25%)",
-            }}
+        {cartQuantity > 0 && (
+          <Button
+            onClick={openCart}
+            variant="outline-primary"
+            className="rounded-circle"
+            style={{ position: "relative", width: "3rem", height: "3rem" }}
           >
-            3
-          </div>
-        </Button>
+            <MdShoppingCart style={{ fontSize: "25px" }} />
+            <div
+              className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
+              style={{
+                color: "white",
+                width: "1.5rem",
+                height: "1.5rem",
+                position: "absolute",
+                bottom: 0,
+                right: 0,
+                transform: "translate(25%,25%)",
+              }}
+            >
+              {cartQuantity}
+            </div>
+          </Button>
+        )}
       </Container>
     </NavbarBs>
   );
